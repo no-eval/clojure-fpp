@@ -39,7 +39,8 @@
 
 (mins-seconds-elapsed 200)
 
-(def wholesome-data ["Apple" 2 3.14 "Magic" :who])
+;(def wholesome-data ["Apple" 2 3.14 "Magic" :who])
+(def wholesome-data [2 3.14])
 
 (def high-temperature [27 24 23.1 19.5 18 16 14])
 
@@ -48,6 +49,51 @@
 (println (merge wholesome-data high-temperature))
 
 (println (update-in names [:king :age] + 10))
+
+; The real fun begins here
+(defn double-operator
+  "can either add or subtract"
+  [operator x y]
+  (println (operator x y)))
+
+; Clojure uses prefix notation of + 3 2 instead of infix notation of 3 + 2
+(double-operator * 3 2)
+
+(defn concat-some
+  [f vec1 vec2]
+  ((fn [x] (filter f x))
+   (concat vec1 vec2)))
+(concat-some even? [1 2 3] [4 5 6])
+
+(defn vector-output
+  "Returns a vector of data passed"
+  [a b c]
+  (println [a b c]))
+
+; () list [] vector #{} set w/ unique values {} maps w/ key value
+(def visitor (atom []))
+
+(defn hello-visitor
+   "Save the visitor in an atom and retrieve it"
+   [name]
+   (swap! visitor conj name)
+   (println "Hello, " name))
+
+(hello-visitor "King")
+(hello-visitor "Queen")
+(hello-visitor "Queen")
+(hello-visitor "Kong")
+
+(println @visitor)
+
+(def founder {"Lisp" "McCarthy" "Clojure" "Hickey"})
+(println founder)
+
+(require 'examples.introduction)
+(take 10 examples.introduction/fibs)
+
+(defrecord Book [title shelf])
+(->Book "Programing Clojure" "Code")
 
 ; To run the project in REPL - Right click on project.clj and click on *Run 'REPL for Hello'*
 ; CMD+SHIFT+L loads the current file in the REPL
